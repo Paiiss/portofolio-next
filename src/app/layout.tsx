@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Quicksand } from 'next/font/google';
 import './globals.css';
+import '../../styles/CustomScrollbar.scss';
 
 // Component
 import Header from '@/components/Header';
