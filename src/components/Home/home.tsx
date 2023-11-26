@@ -27,7 +27,7 @@ export default function HomeComponent() {
         <div className="flex flex-wrap">
           <div className="w-full self-center px-4 lg:w-3/5">
             <h1 className="text-base font-bold text-pink-500 md:text-xl">
-              Hallo {greeting} 👋, Saya
+              Hallo 👋, Saya
               <span className="block font-semibold text-slate-900 dark:text-white text-2xl md:text-4xl">
                 Muhammad Fais Avriody Daffa
               </span>
@@ -40,7 +40,7 @@ export default function HomeComponent() {
             </p>
 
             <Link
-              href="/"
+              href="#footer"
               className="text-base font-semibold py-3 px-8 text-white bg-pink-500 hover:opacity-80 hover:shadow-lg rounded-full duration-300 ease-in-out"
             >
               Hubungi Saya
