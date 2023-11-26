@@ -22,8 +22,13 @@ const Navbar = () => {
     <header className="absolute top-0 left-0 z-10 flex w-full items-center bg-transparent">
       <Container maxWidth="lg">
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Button color="inherit" component="a" disableRipple={true}>
+          <Typography
+            variant="body1"
+            component="div"
+            sx={{ flexGrow: 1 }}
+            fontWeight="bold"
+          >
+            <Button color="inherit" disableRipple={true}>
               mfadaffa
             </Button>
           </Typography>
