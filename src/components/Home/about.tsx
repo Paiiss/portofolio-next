@@ -1,4 +1,4 @@
-import Button from '@mui/material/Button';
+import { Button, Typography } from '@mui/material';
 
 export default function about() {
   return (
@@ -13,10 +13,10 @@ export default function about() {
               Minat dan keahlian
             </h3>
             <p>
-              Saya memiliki minat mendalam dalam programming, dan saya memiliki
-              pengalaman dalam membuat aplikasi web menggunakan Nuxtjs, Nestjs,
-              dan Expressjs. Saat ini saya sedang belajar tentang Reactjs dan
-              Nextjs menggunakan Tailwindcss.
+              Saya memiliki minat mendalam dalam programming, programming bagi
+              saya bukan soal uang dan menjadi tujuan utama saya, melainkan
+              programming adalah passion saya. saya memulai programming sejak di
+              bangku SMA.
             </p>
           </div>
           <div className="w-full px-4 md:w-1/2">
@@ -24,9 +24,9 @@ export default function about() {
               Pendidikan
             </h3>
             <p>
-              Lulusan Madrasah Aliyah Negeri 1 Pekanbar pada tahun 2023, saya
-              saat ini menempuh pendidikan di Universitas Hang Tuah Pekanbaru
-              dengan jurusan Teknik Informatika.
+              Saat ini saya sedang menempuh pendidikan di Universitas Hang Tuah
+              Pekanbaru dengan jurusan Teknik Informatika angkatan 2023. Saya
+              juga memiliki sertifikat dari Dicoding.
             </p>
           </div>
         </div>
