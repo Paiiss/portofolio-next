@@ -12,6 +12,8 @@ export async function GET(req: any, res: Response | NextApiResponse) {
     fs.appendFile(logFilePath, logData, (err) => {
         if (err) {
             console.error('Error writing to log file:', err);
+        } else {
+            console.log('Successfully wrote to log file.')
         }
     });
 
