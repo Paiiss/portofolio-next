@@ -5,7 +5,7 @@ export default function about() {
     <section id="about" className="pt-36 pb-32">
       <div className="container">
         <div className="flex flex-wrap">
-          <div className="w-full px-4 mb-10 md:w-1/2">
+          <div data-aos="fade-up-right" className="w-full px-4 mb-10 md:w-1/2">
             <h4 className="font-bold uppercase text-pink-500 text-lg">
               Tentang saya
             </h4>
@@ -19,7 +19,7 @@ export default function about() {
               bangku SMA.
             </p>
           </div>
-          <div className="w-full px-4 md:w-1/2">
+          <div data-aos="fade-up-left" className="w-full px-4 md:w-1/2">
             <h3 className="font-bold text-lg lg:pt-7 lg:text-2xl">
               Pendidikan
             </h3>
