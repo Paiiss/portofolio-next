@@ -9,7 +9,7 @@ export default function CertificateComponent() {
   return (
     <section id="certificate">
       <div className="container pb-32">
-        <div className="w-full text-center">
+        <div className="w-full text-center" data-aos="fade-up">
           <h2 className="pb-4 text-2xl font-bold dark:text-white md:text-3xl">
             Certificate
           </h2>
