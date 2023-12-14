@@ -5,7 +5,7 @@ export default function ProjectComponent() {
     <section id="project">
       <div className="container">
         <div className="w-full px-4">
-          <div className="w-full ">
+          <div className="w-full" data-aos="fade-up">
             <h2 className="font-bold pb-4 text-2xl md:text-3xl text-center">
               Project
             </h2>
