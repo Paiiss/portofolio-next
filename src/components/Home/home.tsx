@@ -22,7 +22,7 @@ export default function HomeComponent() {
   }, []);
 
   return (
-    <section id="home">
+    <section id="home" className="py-0 md:py-16">
       <div className="container">
         <div className="flex flex-wrap">
           <div className="w-full self-center px-4 lg:w-3/5">
@@ -46,7 +46,7 @@ export default function HomeComponent() {
               Hubungi Saya
             </Link>
           </div>
-          <div className="w-full self-end px-4 lg:w-2/5 flex items-center justify-center">
+          <div className="w-full self-end px-4 lg:w-2/5 flex mx-auto justify-center">
             <div className="relative mt-10 lg:mt-9 lg:right-0">
               <Image
                 src={Profile}
