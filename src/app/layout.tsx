@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Script from 'next/script';
 import { Quicksand } from 'next/font/google';
 import './globals.css';
 import '../../styles/CustomScrollbar.scss';
@@ -7,6 +8,7 @@ import '../../styles/CustomScrollbar.scss';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Container from '@/components/Container';
+import AOS from '@/components/aos';
 
 // Data
 import siteMetadata from '@/data/siteMetadata';
@@ -32,6 +34,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang={siteMetadata.language} className={`${quicksand.variable}`}>
+      <AOS />
       <body className="min-h-screen mx-auto flex flex-col bg-white dark:bg-gray-900">
         <Container>
           <Header />
