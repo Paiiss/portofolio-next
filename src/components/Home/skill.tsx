@@ -30,7 +30,10 @@ export default function SkillComponent() {
       <div className="container pb-32">
         <div className="w-full px-4">
           <div className="mx-auto max-w-xl text-center">
-            <h2 className="mb-4 text-2xl font-bold text-dark dark:text-white sm:text-2xl md:text-3xl">
+            <h2
+              data-aos="fade-up"
+              className="mb-4 text-2xl font-bold text-dark dark:text-white sm:text-2xl md:text-3xl"
+            >
               Skill
             </h2>
 
@@ -42,6 +45,8 @@ export default function SkillComponent() {
               {data.map((item) => (
                 <Grid item xs={3} md={2} key={item.id}>
                   <Card
+                    data-aos="fade-up"
+                    data-aos-duration="3000"
                     elevation={0}
                     style={{
                       backgroundColor: 'transparent',
