@@ -33,12 +33,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang={siteMetadata.language} className={`${quicksand.variable}`}>
+    <html lang={siteMetadata.language} className={`${quicksand.variable} `}>
       <AOS />
-      <body className="min-h-screen mx-auto flex flex-col bg-white dark:bg-gray-900">
+      <body className="flex flex-col min-h-screen bg-white dark:bg-gray-900 ">
         <Container>
           <Header />
-          <main className="mx-auto pt-36 px-4 flex flex-col flex-1 max-w-6xl w-full">
+          <main className="mx-auto pt-36 px-4 flex flex-col overflow-hidden">
             {children}
           </main>
           <Footer />

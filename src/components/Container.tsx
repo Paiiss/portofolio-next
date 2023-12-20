@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { ThemeProvider } from "next-themes";
-import { ReactNode, useState, useEffect } from "react";
-import siteMetadata from "@/data/siteMetadata";
+import { ThemeProvider } from 'next-themes';
+import { ReactNode, useState, useEffect } from 'react';
+import siteMetadata from '@/data/siteMetadata';
 
 interface Props {
   children: ReactNode | string | React.JSX.Element | React.JSX.Element[];
   size?: string;
 }
 
-export default function Container({ children, size = "xl" }: Props) {
+export default function Container({ children, size = 'xl' }: Props) {
   const [mounted, setMounted] = useState<boolean>(false);
 
   useEffect(() => {

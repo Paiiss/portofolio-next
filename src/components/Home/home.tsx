@@ -40,7 +40,7 @@ export default function HomeComponent() {
             </p>
 
             <Link
-              href="#footer"
+              href="mailto:mfa.daffa@gmail.com"
               className="text-base font-semibold py-3 px-8 text-white bg-pink-500 hover:opacity-80 hover:shadow-lg rounded-full duration-300 ease-in-out"
             >
               Hubungi Saya
