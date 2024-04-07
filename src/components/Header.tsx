@@ -19,38 +19,18 @@ const Navbar = () => {
     { name: 'Blog', route: '#blog' },
   ];
   return (
-    <header className="absolute top-0 left-0 z-10 flex w-full items-center bg-transparent">
-      <Container maxWidth="lg">
-        <Toolbar>
-          <Typography
-            variant="body1"
-            component="div"
-            sx={{ flexGrow: 1 }}
-            fontWeight="bold"
-          >
-            <Button color="inherit" disableRipple={true}>
-              mfadaffa
-            </Button>
-          </Typography>
-
-          {/* <nav>
-            <List sx={{ display: 'flex' }}>
-              {nav.map((item, index) => (
-                <ListItem key={index}>
-                  <Button href={item.route} color="inherit">
-                    {item.name}
-                  </Button>
-                </ListItem>
-              ))}
-            </List>
-          </nav> */}
-
-          <div>
-            <ThemeSwitcher />
-          </div>
-        </Toolbar>
-      </Container>
-    </header>
+    <nav className="absolute top-0 left-0 z-10 w-full items-center bg-transparent">
+      <div className="flex items-center justify-between mx-auto px-4 sm:px-6 lg:px-8 h-16 max-w-7xl">
+        <div>
+          <Link href="/" className="text-lg font-bold">
+            {siteMetadata.headerTitle}
+          </Link>
+        </div>
+        <div>
+          <ThemeSwitcher />
+        </div>
+      </div>
+    </nav>
   );
 };
 
