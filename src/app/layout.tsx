@@ -38,7 +38,7 @@ export default function RootLayout({
       <body className="flex flex-col min-h-screen bg-white dark:bg-gray-900 ">
         <Container>
           <Header />
-          <main className="mx-auto pt-36 px-4 flex flex-col overflow-hidden">
+          <main className="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl overflow-hidden">
             {children}
           </main>
           <Footer />
