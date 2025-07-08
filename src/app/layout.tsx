@@ -4,9 +4,7 @@ import '../../styles/CustomScrollbar.scss';
 import './globals.css';
 
 // Component
-import Container from '@/components/Container';
-import Footer from '@/components/Footer';
-import Header from '@/components/Header';
+
 import AOS from '@/components/aos';
 
 // Data
@@ -32,26 +30,11 @@ export const metadata: Metadata = {
   description: siteMetadata.description,
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html
-      lang={siteMetadata.language}
-      className={`${quicksand.variable} ${vt323.variable}`}
-    >
+    <html lang={siteMetadata.language} className={`${quicksand.variable} ${vt323.variable}`}>
       <AOS />
-      <body className="flex flex-col min-h-screen bg-white dark:bg-gray-900 ">
-        <Container>
-          <Header />
-          <main className="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl overflow-hidden">
-            {children}
-          </main>
-          <Footer />
-        </Container>
-      </body>
+      <body className="flex min-h-screen flex-col bg-white dark:bg-gray-900">{children}</body>
     </html>
   );
 }

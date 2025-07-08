@@ -5,16 +5,19 @@ import Certificate from '@/components/Home/certificate';
 import HomeComponent from '@/components/Home/home';
 import Project from '@/components/Home/project';
 import Skill from '@/components/Home/skill';
+import Layout from '@/components/Layout';
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen flex-col bg-white pt-24 dark:bg-gray-900 md:pt-16">
-      <HomeComponent />
-      <About />
-      <Skill />
-      <Certificate />
-      <Project />
-    </div>
+    <Layout>
+      <div className="flex flex-col pt-24 md:pt-16">
+        <HomeComponent />
+        <About />
+        <Skill />
+        <Certificate />
+        <Project />
+      </div>
+    </Layout>
   );
 }
 
