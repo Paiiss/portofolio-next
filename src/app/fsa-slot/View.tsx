@@ -83,7 +83,9 @@ class SlotMachineStateMachine {
         if (event.type === EVENTS.START) {
           this.state = 'READY';
           this.context.currentSlots = ['🍒', '🍒', '🍒'];
-          console.log('READY');
+          this.context.lastResult = null;
+          this.context.winAmount = 0;
+          console.log('State: READY');
         }
         break;
 
@@ -102,11 +104,11 @@ class SlotMachineStateMachine {
           this.context.lastResult = null;
           this.context.winAmount = 0;
           this.state = 'BETTING';
-          console.log('BETTING');
+          console.log('State: BETTING');
         } else if (event.type === EVENTS.RESET) {
           this.state = 'IDLE';
           this.resetContext();
-          console.log('IDLE (Reset)');
+          console.log('State: IDLE (Reset)');
         }
         break;
 
@@ -115,29 +117,33 @@ class SlotMachineStateMachine {
           this.state = 'SPINNING';
           this.context.isSpinning = true;
           this.context.spinCount++;
+          console.log('State: SPINNING');
 
           const results = this.generateSpinResults();
           this.context.currentSlots = results;
-
-          await new Promise<void>((resolve) => setTimeout(resolve, 4000));
-
-          this.context.isSpinning = false;
-          this.state = 'SHOWING_RESULT';
-          console.log('SHOWING_RESULT');
         }
         break;
 
-      case 'SHOWING_RESULT':
+      case 'SPINNING':
         if (event.type === EVENTS.SHOW_RESULT) {
-          // Hitung hasil
+          this.context.isSpinning = false;
+          this.state = 'SHOWING_RESULT';
+
           const result = this.calculateResult();
           this.context.lastResult = result.type;
           this.context.winAmount = result.amount;
           this.context.balance += result.amount;
 
-          this.state = 'READY';
-          console.log('READY (Result processed)');
+          console.log('State: SHOWING_RESULT', { result: result.type, amount: result.amount });
+
+          setTimeout(() => {
+            this.state = 'READY';
+            console.log('State: READY (Auto transition)');
+          }, 4000);
         }
+        break;
+
+      case 'SHOWING_RESULT':
         break;
 
       default:
@@ -171,7 +177,7 @@ class SlotMachineStateMachine {
     }
 
     if (first === second || second === third || first === third) {
-      return { type: 'WIN', amount: this.context.bet * 1.5 };
+      return { type: 'WIN', amount: Math.floor(this.context.bet * 1.5) };
     }
 
     return { type: 'LOSE', amount: 0 };
@@ -207,9 +213,9 @@ class SlotMachineStateMachine {
       case 'BETTING':
         return ['SPIN'];
       case 'SPINNING':
-        return ['(automatic)'];
-      case 'SHOWING_RESULT':
         return ['SHOW_RESULT'];
+      case 'SHOWING_RESULT':
+        return ['(auto to READY)'];
       default:
         return [];
     }
@@ -236,22 +242,27 @@ const SlotReel: React.FC<SlotReelProps> = ({
     if (isSpinning && !isReelSpinning) {
       setIsReelSpinning(true);
 
-      const delay = reelIndex * 300;
+      const spinInterval = setInterval(() => {
+        const randomSymbol = symbolArray[Math.floor(Math.random() * symbolArray.length)];
+        setDisplaySymbol(randomSymbol);
+      }, 100);
+
+      const totalSpinTime = 3000;
       setTimeout(() => {
+        clearInterval(spinInterval);
         setDisplaySymbol(finalSymbol);
         setIsReelSpinning(false);
         if (onSpinComplete) onSpinComplete();
-      }, 2000 + delay);
+      }, totalSpinTime);
     }
 
-    if (!isSpinning) {
-      setIsReelSpinning(false);
+    if (!isSpinning && !isReelSpinning) {
       setDisplaySymbol(finalSymbol);
     }
   }, [isSpinning, finalSymbol, reelIndex, onSpinComplete, isReelSpinning]);
 
   return (
-    <div className="relative h-24 w-24 overflow-hidden rounded-xl border-4 border-yellow-500 bg-gradient-to-b from-yellow-100 to-yellow-200 shadow-inner">
+    <div className="relative h-24 w-24 rounded-xl border-4 border-yellow-500 bg-gradient-to-b from-yellow-100 to-yellow-200 shadow-inner">
       <div className="absolute inset-0 rounded-lg border-2 border-gray-300 shadow-inner"></div>
 
       <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-white/30 via-transparent to-transparent"></div>
@@ -269,7 +280,7 @@ const SlotReel: React.FC<SlotReelProps> = ({
         <div className="absolute inset-0 z-20 rounded-lg border-2 border-yellow-400 opacity-50" />
       )}
 
-      <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 transform rounded bg-black px-2 py-1 text-xs font-bold text-yellow-400">
+      <div className="absolute -bottom-3 left-1/2 z-50 -translate-x-1/2 transform rounded bg-black px-2 py-1 text-xs font-bold text-yellow-400">
         {reelIndex + 1}
       </div>
     </div>
@@ -283,6 +294,15 @@ const View: React.FC = () => {
   const [currentState, setCurrentState] = useState<FSAState>('IDLE');
   const [completedReels, setCompletedReels] = useState<number>(0);
   const [showFSAInfo, setShowFSAInfo] = useState<boolean>(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setGameState({ ...machine.context });
+      setCurrentState(machine.state);
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, [machine]);
 
   useEffect(() => {
     const initializeGame = async (): Promise<void> => {
@@ -312,7 +332,6 @@ const View: React.FC = () => {
     setCompletedReels(0);
 
     await machine.send({ type: EVENTS.SPIN });
-
     setGameState({ ...machine.context });
     setCurrentState(machine.state);
 
@@ -320,7 +339,7 @@ const View: React.FC = () => {
       await machine.send({ type: EVENTS.SHOW_RESULT });
       setGameState({ ...machine.context });
       setCurrentState(machine.state);
-    }, 4000);
+    }, 3000);
   };
 
   const handleReelComplete = () => {
@@ -373,16 +392,6 @@ const View: React.FC = () => {
           <div className="absolute -inset-4 rounded-3xl bg-gradient-to-r from-yellow-400/20 via-red-500/20 to-pink-500/20 blur-xl"></div>
 
           <div className="relative overflow-hidden rounded-3xl border-8 border-yellow-500 bg-gradient-to-b from-gray-800 via-gray-900 to-black p-0 shadow-2xl md:p-8">
-            <div className="absolute -top-6 left-1/2 -translate-x-1/2 transform">
-              <motion.div
-                className="text-4xl"
-                animate={{ rotate: [0, 10, -10, 0] }}
-                transition={{ duration: 3, repeat: Infinity }}
-              >
-                👑
-              </motion.div>
-            </div>
-
             <div className="mb-6 rounded-2xl border-4 border-yellow-400 bg-black p-4 shadow-inner md:p-6">
               <div className="rounded-lg bg-gradient-to-r from-blue-900 to-purple-900 p-2 text-center md:p-4">
                 <motion.div
@@ -399,11 +408,13 @@ const View: React.FC = () => {
                       ? '🎯 READY TO SPIN 🎯'
                       : currentState === 'READY'
                         ? '💰 PLACE YOUR BET 💰'
-                        : '🎰 SLOT MACHINE 🎰'}
+                        : currentState === 'SHOWING_RESULT'
+                          ? '🎉 CHECKING RESULTS 🎉'
+                          : '🎰 SLOT MACHINE 🎰'}
                 </motion.div>
 
                 <AnimatePresence mode="wait">
-                  {gameState.lastResult && (
+                  {gameState.lastResult && currentState === 'SHOWING_RESULT' && (
                     <motion.div
                       key={gameState.lastResult}
                       initial={{ scale: 0, opacity: 0 }}
@@ -429,8 +440,8 @@ const View: React.FC = () => {
               </div>
             </div>
 
-            <div className="mb-6 rounded-2xl border-4 border-yellow-300 bg-gradient-to-b from-yellow-400 to-yellow-600 p-6 shadow-lg">
-              {gameState.isSpinning && (
+            <div className="mb-6 rounded-2xl border-4 border-yellow-300 bg-gradient-to-b from-yellow-400 to-yellow-600 p-2 shadow-lg md:p-6">
+              {/* {gameState.isSpinning && (
                 <motion.div
                   className="absolute -right-2 -top-2 z-20 rounded-full bg-red-500 px-3 py-1 text-sm font-bold text-white"
                   animate={{
@@ -445,7 +456,7 @@ const View: React.FC = () => {
                 >
                   SPINNING
                 </motion.div>
-              )}
+              )} */}
 
               <div className="flex justify-center space-x-4">
                 {gameState.currentSlots.map((symbol: string, index: number) => (
@@ -460,9 +471,6 @@ const View: React.FC = () => {
                       reelIndex={index}
                       onSpinComplete={handleReelComplete}
                     />
-                    <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 transform rounded bg-black px-2 py-1 text-xs font-bold text-yellow-400">
-                      {index + 1}
-                    </div>
                   </motion.div>
                 ))}
               </div>
@@ -507,20 +515,23 @@ const View: React.FC = () => {
                   animate={
                     gameState.isSpinning
                       ? {
-                          rotate: [0, 360],
+                          rotate: 360,
                           boxShadow: [
                             '0 0 20px rgba(239, 68, 68, 0.5)',
                             '0 0 40px rgba(239, 68, 68, 0.8)',
                             '0 0 20px rgba(239, 68, 68, 0.5)',
                           ],
                         }
-                      : {}
+                      : {
+                          rotate: 0,
+                          boxShadow: '0 0 20px rgba(239, 68, 68, 0.5)',
+                        }
                   }
                   transition={{
                     rotate: {
-                      duration: 2,
+                      duration: gameState.isSpinning ? 2 : 0.3,
                       repeat: gameState.isSpinning ? Infinity : 0,
-                      ease: 'linear',
+                      ease: gameState.isSpinning ? 'linear' : 'easeOut',
                     },
                     boxShadow: {
                       duration: 1,
@@ -575,7 +586,7 @@ const View: React.FC = () => {
                 id="bet-amount"
                 value={betAmount}
                 onChange={(e) => setBetAmount(Number(e.target.value))}
-                disabled={currentState === 'SPINNING'}
+                disabled={currentState === 'SPINNING' || currentState === 'SHOWING_RESULT'}
                 className="rounded-lg border-2 border-yellow-500 bg-black/70 px-4 py-2 font-bold text-white"
               >
                 {[10, 25, 50, 100, 250, 500].map((option) => (
@@ -599,9 +610,10 @@ const View: React.FC = () => {
 
               <motion.button
                 onClick={resetGame}
+                disabled={currentState === 'SPINNING' || currentState === 'SHOWING_RESULT'}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="rounded-lg border-2 border-red-400 bg-gradient-to-r from-red-500 to-red-600 px-6 py-3 font-bold text-white shadow-lg hover:from-red-400 hover:to-red-500"
+                className="rounded-lg border-2 border-red-400 bg-gradient-to-r from-red-500 to-red-600 px-6 py-3 font-bold text-white shadow-lg hover:from-red-400 hover:to-red-500 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 🔄 RESET GAME
               </motion.button>
@@ -715,8 +727,8 @@ const View: React.FC = () => {
                     <div>🔄 IDLE → READY (START)</div>
                     <div>💰 READY → BETTING (BET)</div>
                     <div>🎲 BETTING → SPINNING (SPIN)</div>
-                    <div>⚡ SPINNING → SHOWING_RESULT (Auto)</div>
-                    <div>📊 SHOWING_RESULT → READY (SHOW_RESULT)</div>
+                    <div>⚡ SPINNING → SHOWING_RESULT (SHOW_RESULT)</div>
+                    <div>📊 SHOWING_RESULT → READY (Auto)</div>
                     <div>🔄 ANY → IDLE (RESET)</div>
                   </div>
                 </div>
