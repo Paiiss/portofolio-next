@@ -22,7 +22,7 @@ export default function Home() {
 }
 
 export const metadata: Metadata = {
-  title: 'Portofolio',
+  title: 'Paiiss | Portofolio',
   description:
     'Selamat datang di dunia kreatif saya! Saya Muhammad Fais Avriody Daffa, seorang mahasiswa yang memiliki minat programming.',
   authors: [{ name: 'Muhammad Fais Avriody Daffa', url: 'https://peix.my.id' }],
