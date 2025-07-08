@@ -1,14 +1,14 @@
 import type { Metadata } from 'next';
 
-import HomeComponent from '@/components/Home/home';
 import About from '@/components/Home/about';
-import Skill from '@/components/Home/skill';
 import Certificate from '@/components/Home/certificate';
+import HomeComponent from '@/components/Home/home';
 import Project from '@/components/Home/project';
+import Skill from '@/components/Home/skill';
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen bg-white dark:bg-gray-900 pt-36">
+    <div className="flex min-h-screen flex-col bg-white pt-24 dark:bg-gray-900 md:pt-16">
       <HomeComponent />
       <About />
       <Skill />

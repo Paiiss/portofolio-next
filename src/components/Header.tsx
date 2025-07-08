@@ -1,17 +1,7 @@
 /* eslint-disable react/jsx-key */
-import Link from 'next/link';
-import React from 'react';
 import ThemeSwitcher from '@/components/ThemeSwitcher';
 import siteMetadata from '@/data/siteMetadata';
-import {
-  Button,
-  Container,
-  AppBar,
-  Toolbar,
-  Typography,
-  List,
-  ListItem,
-} from '@mui/material';
+import Link from 'next/link';
 
 const Navbar = () => {
   const nav = [
@@ -19,13 +9,11 @@ const Navbar = () => {
     { name: 'Blog', route: '#blog' },
   ];
   return (
-    <nav className="absolute top-0 left-0 z-10 w-full items-center bg-transparent">
-      <div className="flex items-center justify-between mx-auto px-4 sm:px-6 lg:px-8 h-16 max-w-7xl">
-        <div>
-          <Link href="/" className="text-lg font-bold">
-            {siteMetadata.headerTitle}
-          </Link>
-        </div>
+    <nav className="absolute left-0 top-0 z-10 w-full items-center border-b border-gray-200 bg-transparent dark:border-gray-700">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <Link href="/" className="font-mono text-2xl font-bold md:text-3xl">
+          {siteMetadata.headerTitle}
+        </Link>
         <div>
           <ThemeSwitcher />
         </div>

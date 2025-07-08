@@ -1,44 +1,35 @@
-import { Grid, Card, CardMedia } from '@mui/material';
-import Link from 'next/link';
+import Image from 'next/image';
 
 export default function CertificateComponent() {
-  const certificateImages = [
-    '/image/certificate-1.png',
-    '/image/certificate-2.png',
-  ];
+  const certificateImages = ['/img/certificate-1.png', '/img/certificate-2.png'];
   return (
-    <section id="certificate">
-      <div className="container pb-32">
-        <div className="w-full text-center" data-aos="fade-up">
-          <h2 className="pb-4 text-2xl font-bold dark:text-white md:text-3xl">
-            Certificate
-          </h2>
-          <Grid
-            container
-            rowSpacing={1}
-            justifyContent="center"
-            columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+    <section id="certificate" className="container py-8 md:py-16">
+      <h2
+        className="pb-4 text-center text-2xl font-bold dark:text-white md:text-3xl"
+        data-aos="fade-up"
+        data-aos-duration={3000}
+      >
+        Certificate
+      </h2>
+
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        {certificateImages.map((image, index) => (
+          <div
+            key={index}
+            className="overflow-hidden rounded-lg shadow-lg"
+            data-aos="fade-up"
+            data-aos-duration={3000}
+            data-aos-delay={index * 300}
           >
-            {certificateImages.map((image, index) => (
-              <Grid item xs={12} md={6} key={index}>
-                <Card
-                  elevation={3}
-                  style={{
-                    backgroundColor: 'transparent',
-                  }}
-                >
-                  <CardMedia
-                    style={{ borderRadius: '8px' }}
-                    component="img"
-                    alt="Certificate "
-                    height="140"
-                    image={image}
-                  />
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        </div>
+            <Image
+              src={image}
+              alt={`Certificate ${index + 1}`}
+              width={500}
+              height={300}
+              className="h-auto w-full"
+            />
+          </div>
+        ))}
       </div>
     </section>
   );
