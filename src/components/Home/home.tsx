@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 export default function HomeComponent() {
-  const [greeting, setGreeting] = useState('~');
+  const [greeting, setGreeting] = useState('');
 
   useEffect(() => {
     const currentHour = new Date().getHours();
@@ -26,16 +26,16 @@ export default function HomeComponent() {
         <div className="flex flex-wrap">
           <div className="w-full self-center px-4 lg:w-3/5">
             <h1 className="text-base font-bold text-pink-500 md:text-xl">
-              Hallo 👋, Saya
-              <span className="block text-2xl font-semibold text-slate-900 dark:text-white md:text-4xl">
-                Muhammad Fais Avriody Daffa
+              Halo 👋, <span className="capitalize">{greeting}</span>!
+              <span className="block bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-2xl font-semibold text-transparent dark:text-transparent md:text-4xl">
+                Saya Muhammad Fais Avriody Daffa
               </span>
             </h1>
             <h2 className="mb-4 text-lg font-medium text-slate-500 dark:text-slate-300 lg:text-2xl">
               Informatics Engineering Student
             </h2>
             <p className="mb-10 font-medium leading-relaxed text-slate-700 dark:text-slate-200">
-              Passionate about code, and innovation.
+              Passionate about code, innovation, and building impactful digital experiences.
             </p>
 
             <Link
