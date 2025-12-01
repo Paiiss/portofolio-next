@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Quicksand, VT323 } from 'next/font/google';
+import Script from 'next/script';
 import '../../styles/CustomScrollbar.scss';
 import './globals.css';
 
@@ -33,6 +34,13 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang={siteMetadata.language} className={`${quicksand.variable} ${vt323.variable}`}>
+      <head>
+        <Script
+          defer
+          data-website-id="433dc464-4590-4450-b7b1-57dd28946116"
+          src="https://cloud.umami.is/script.js"
+        />
+      </head>
       <AOS />
       <body className="flex min-h-screen flex-col bg-white dark:bg-gray-900">{children}</body>
     </html>
